@@ -1,70 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arun Regmi | Official Website</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Welcome | ArunRegmi.com.np</title>
 
-<!-- Google AdSense -->
-<script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9712141373432139"
-  crossorigin="anonymous"></script>
+<!-- Three.js -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 
-<link rel="stylesheet" href="style.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #020617, #000);
+  color: white;
+}
+
+/* UI CARD */
+.ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.card {
+  pointer-events: auto;
+  text-align: center;
+  padding: 50px 45px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 40px 120px rgba(0,0,0,.7);
+  max-width: 720px;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 52px);
+  background: linear-gradient(90deg,#38bdf8,#22c55e,#a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 14px;
+}
+
+p {
+  opacity: .9;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+button {
+  margin-top: 28px;
+  padding: 15px 36px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(135deg,#22c55e,#38bdf8);
+  color: #020617;
+  box-shadow: 0 20px 60px rgba(56,189,248,.45);
+  transition: .25s ease;
+}
+
+button:hover {
+  transform: scale(1.06);
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>Arun Regmi</h1>
-  <p>Digital Creator • AI • Online Business</p>
-</header>
+<div class="ui">
+  <div class="card">
+    <h1>Welcome to ArunRegmi.com.np</h1>
+    <p>
+      Official digital space of Arun Regmi<br/>
+      AI • Online Business • Future-Ready Ideas
+    </p>
+    <button onclick="enter()">Enter Website</button>
+  </div>
+</div>
 
-<!-- Ad 1 -->
-<section class="ad-box">
-  <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-9712141373432139"
-    data-ad-slot="9717672877"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
+<script>
+/* ===== THREE.JS SCENE ===== */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 1000);
+camera.position.z = 6;
 
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</section>
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
 
-<main>
-  <h2>Welcome to ArunRegmi.com.np</h2>
-  <p>
-    ArunRegmi.com.np is a Nepali digital platform focused on AI tools,
-    online earning ideas, and future-ready technology content.
-  </p>
+/* LIGHTS */
+scene.add(new THREE.AmbientLight(0xffffff, .6));
+const light = new THREE.PointLight(0x38bdf8, 2);
+light.position.set(3,3,4);
+scene.add(light);
 
-  <p>
-    We provide trusted guides, tools, and services for digital growth.
-  </p>
-</main>
+/* GLOW SPHERE */
+const geometry = new THREE.SphereGeometry(1.2, 64, 64);
+const material = new THREE.MeshStandardMaterial({
+  color: 0x22c55e,
+  roughness: 0.15,
+  metalness: 0.6,
+  emissive: 0x38bdf8,
+  emissiveIntensity: .4
+});
+const sphere = new THREE.Mesh(geometry, material);
+scene.add(sphere);
 
-<!-- Ad 2 -->
-<section class="ad-box">
-  <ins class="adsbygoogle"
-    style="display:block"
-    data-ad-client="ca-pub-9712141373432139"
-    data-ad-slot="9717672877"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
+/* ANIMATE */
+function animate() {
+  requestAnimationFrame(animate);
+  sphere.rotation.y += 0.003;
+  sphere.rotation.x += 0.002;
+  renderer.render(scene, camera);
+}
+animate();
 
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</section>
+/* MOUSE PARALLAX */
+document.addEventListener("mousemove", e => {
+  const x = (e.clientX / innerWidth - .5) * 2;
+  const y = (e.clientY / innerHeight - .5) * 2;
+  sphere.rotation.y = x;
+  sphere.rotation.x = y;
+});
 
-<footer>
-  <p>© 2026 ArunRegmi.com.np | All Rights Reserved</p>
-</footer>
+/* RESIZE */
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+/* BUTTON */
+function enter(){
+  window.location.href = "home.html";
+}
+</script>
 
 </body>
 </html>
+
 
 
