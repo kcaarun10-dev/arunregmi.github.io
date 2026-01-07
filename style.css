@@ -33,7 +33,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     backdrop-filter: blur(10px);
     z-index: 1000;
 }
@@ -46,11 +46,11 @@ header{
 
 /* ================= NAV ================= */
 nav{
+    display: flex;
     white-space: nowrap;
 }
 
 nav a{
-    display: inline-block;
     font-size: 1.8rem;
     margin-left: 3rem;
     font-weight: 500;
@@ -98,41 +98,6 @@ section{
     max-width: 600px;
     line-height: 1.6;
     color: #ddd;
-}
-
-/* ================= TYPING EFFECT ================= */
-.typing-text span{
-    position: relative;
-    color: #b74b4b;
-}
-
-.typing-text span::before{
-    content: "Web Developer";
-    animation: words 20s infinite;
-}
-
-.typing-text span::after{
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -8px;
-    width: 2px;
-    height: 100%;
-    background: #b74b4b;
-    animation: cursor 0.7s infinite;
-}
-
-@keyframes cursor{
-    0%,50%,100%{opacity:1;}
-    25%,75%{opacity:0;}
-}
-
-@keyframes words{
-    0%,20%{content:"Web Developer";}
-    21%,40%{content:"Developer";}
-    41%,60%{content:"Web Designer";}
-    61%,80%{content:"Youtuber";}
-    81%,100%{content:"Script Writer";}
 }
 
 /* ================= IMAGE ================= */
@@ -222,7 +187,7 @@ section{
 }
 
 /* ================= RESPONSIVE ================= */
-@media(max-width: 995px){
+@media (max-width: 995px){
     .home{
         flex-direction: column;
         gap: 4rem;
@@ -244,7 +209,24 @@ section{
     }
 }
 
-@media(max-width: 600px){
+/* ================= MOBILE NAV SCROLL FIX ================= */
+@media (max-width: 768px){
+    nav{
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar{
+        display: none;
+    }
+
+    nav a{
+        flex-shrink: 0;
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+@media (max-width: 600px){
     header{
         padding: 1rem 5%;
     }
@@ -255,7 +237,7 @@ section{
 
     nav a{
         font-size: 1.4rem;
-        margin-left: 1.5rem;
+        margin-left: 1.2rem;
     }
 
     .home-content h1{
